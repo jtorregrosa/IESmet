@@ -10,21 +10,18 @@ package presenter;
 
 import gnu.io.CommPortIdentifier;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JComboBox;
 
 import view.ConnectionView;
 import view.IView;
-import view.MainView;
 
 import comm.SerialDirector;
+import comm.SerialScheduler;
 import director.Director;
 
 import model.ConnectionModel;
 import model.IModel;
-import model.MainModel;
 
 public class ConnectionPresenter implements IPresenter{
 
@@ -38,7 +35,7 @@ public class ConnectionPresenter implements IPresenter{
 		
 		//Recollect data
 		JComboBox<String> c = _view.getPortsComboBox();
-		SerialDirector d = new SerialDirector();
+		SerialDirector d = SerialDirector.getInstance();
 		for(CommPortIdentifier h : d.getAvailablePorts().values()){
 			c.addItem(h.getName());
 		}
@@ -53,8 +50,8 @@ public class ConnectionPresenter implements IPresenter{
 	
 	public void Connect(String port, boolean doConnection) {
 		if(doConnection){
-			SerialDirector d = new SerialDirector();
-			d.connect(port);
+			SerialDirector.getInstance().connect(port);
+                        SerialScheduler.getInstance().startTasks();
 		}
 
 		Director.doMain();

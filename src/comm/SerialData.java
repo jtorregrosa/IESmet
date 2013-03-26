@@ -63,7 +63,7 @@ public class SerialData extends Observable {
             //System.out.print(new String(Buffer,0,len));
 			UpdateCompleted();
 		}else
-			throw new WrongSerialDataFormat("El buffer de datos debe de ser mínimo de 6 bytes");
+			throw new WrongSerialDataFormat("El buffer de datos debe de ser mÃ­nimo de 6 bytes");
 	}
 
 	public double getTemperature() {

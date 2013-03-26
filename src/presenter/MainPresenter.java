@@ -17,6 +17,7 @@ import view.MainView;
 import comm.SerialData;
 import comm.SerialDirector;
 import director.Director;
+import enums.SensorType;
 
 import model.IModel;
 import model.MainModel;

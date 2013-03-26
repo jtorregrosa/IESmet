@@ -1,54 +1,49 @@
 package comm;
 
 import exceptions.WrongSerialDataFormat;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-public class SerialReader implements SerialPortEventListener 
+public class SerialReader
 {
-    private InputStream Stream;
-    //private ByteBuffer Buffer;
+    private InputStream in;
+
     
     public SerialReader ( InputStream in )
     {
-        this.Stream = in;
+        this.in = in;
     }
     
-    public void serialEvent(SerialPortEvent arg0) {
-    	ByteBuffer Buffer = ByteBuffer.allocate(13);
+    public ByteBuffer obtainReqSensorData() {
+    	ByteBuffer buffer = ByteBuffer.allocateDirect(2);
         int data;
+        buffer.clear();
         int count=0;
-        Buffer.clear();
         try
         {
-            while ( ( data = Stream.read()) > -1 )
+            while ( ( data = in.read()) > -1 && count<2 )
             {
-            	
                 if ( data == 10 ) {
-                    break;
+                    //break;
                 }
+                buffer.put((byte)data);
+                //buffer.put((byte)data2);
+                //buffer.put(tempBuffer[1]);
+                        //put((byte) data);
                 count++;
-                Buffer.put((byte) data);
+                //System.out.println("BYTE " + count + ": "+ data +"    " +Integer.toBinaryString(data));
+                //System.out.println("BYTE 2" + ": "+ data2 +"    " +Integer.toBinaryString(data2));
             }
-            System.out.println("Se enviarion:"+count);
-            //System.out.println("{"+Buffer.get(0)+","+Buffer.get(1)+","+Buffer.get(2)+","+Buffer.get(3)+","+Buffer.get(4)+","+Buffer.get(5)+"}");
-            //System.out.print(new String(Buffer,0,len));
-            //SerialInterpreter.interpretTemperature(Buffer,0,len);
-            //SerialData.getInstance().setTemperature(Buffer.getShort());
-            SerialData.getInstance().UpdateData(Buffer);
+            //System.out.println("--------------------------");
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            System.out.println("Vaya excepcion");
             System.exit(-1);
-        } catch (WrongSerialDataFormat e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}             
+        }
+        
+        return buffer;
     }
 
 }
