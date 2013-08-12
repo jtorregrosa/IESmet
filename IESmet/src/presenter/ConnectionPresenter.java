@@ -19,6 +19,7 @@ import view.IView;
 import comm.SerialDirector;
 import comm.SerialDispatcher;
 import comm.SerialScheduler;
+import common.Configuration;
 import director.Director;
 
 import model.ConnectionModel;
@@ -28,6 +29,8 @@ public class ConnectionPresenter implements IPresenter{
 
 	ConnectionView _view;
 	ConnectionModel _model;
+        
+        
 
 	public ConnectionPresenter(IModel model, IView view){
 		// Instantiate view and model
@@ -46,15 +49,16 @@ public class ConnectionPresenter implements IPresenter{
 			_view.getConnectionButton().setEnabled(false);
 		}
 		_view.setPortsCombobox(c);
-		
 	}
 	
-	public void Connect(String port, boolean doConnection) {
-		if(doConnection){
+	public void Connect(String port) {
+		if(Configuration.getInstance().getAppMode() == Configuration.AppMode.CONNECTED){
 			SerialDirector.getInstance().connect(port);
                         SerialScheduler.getInstance().startTasks();
                         SerialDispatcher.getInstance().startTasks();
-		}
+		}else if(Configuration.getInstance().getAppMode() == Configuration.AppMode.EMULATED){
+                    
+                }
 
 		Director.doMain();
 		_view.close();
