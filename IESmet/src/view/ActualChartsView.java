@@ -16,10 +16,10 @@ import org.jfree.chart.ChartPanel;
 import presenter.ActualChartsPresenter;
 import model.IModel;
 
-public class ActualChartsView extends JPanel implements IView {
+public class ActualChartsView implements IView {
 
+    JPanel _mainPane;
 	JFrame _frame;
-	JPanel _panel;
 	ChartPanel _temperatureChart;
 	ChartPanel _pressureChart;
 	ChartPanel _humidityChart;
@@ -31,9 +31,10 @@ public class ActualChartsView extends JPanel implements IView {
 	ActualChartsPresenter _presenter;
 
 	public ActualChartsView(IModel model) {
+                
 		// Initializing members
+                _mainPane = new JPanel();
 		_frame = new JFrame("Mediciones en tiempo real");
-		_panel = new JPanel();
 		_temperatureChart = null;
 		_pressureChart = null;
 		_humidityChart = null;
@@ -44,25 +45,26 @@ public class ActualChartsView extends JPanel implements IView {
 		_presenter = new ActualChartsPresenter(model, this);
 
 		// Creating all components
-		show();
+		init();
 	}
 
-	public void show() {
+        @Override
+	public final void init() {
 		// Creating Layout
 		GridLayout layout = new GridLayout(2, 3);
                 layout.setHgap(20);
                 layout.setVgap(20);
                 
 		// Setting container panel
-		_panel.setLayout(layout);
-		_panel.setSize(1024, 768);
-		_panel.add(_temperatureChart);
-		_panel.add(_pressureChart);
-		_panel.add(_humidityChart);
-		_panel.add(_wVelocityChart);
-		_panel.add(_wDirectionChart);
-		_panel.add(_rainGaugeChart);
-		_panel.setBackground(Color.white);
+		_mainPane.setLayout(layout);
+		_mainPane.setSize(1024, 768);
+		_mainPane.add(_temperatureChart);
+		_mainPane.add(_pressureChart);
+		_mainPane.add(_humidityChart);
+		_mainPane.add(_wVelocityChart);
+		_mainPane.add(_wDirectionChart);
+		_mainPane.add(_rainGaugeChart);
+		_mainPane.setBackground(Color.white);
 
 		// Setting, packing, and showing Frame
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -75,7 +77,7 @@ public class ActualChartsView extends JPanel implements IView {
         _frame.setMinimumSize(new Dimension(1024,600));
                 _frame.setLayout(layout);
 		_frame.setSize(1024, 600);
-		_frame.setContentPane(_panel);
+		_frame.setContentPane(_mainPane);
 		_frame.setVisible(true);
 
 		_frame.addWindowListener(new WindowListener() {
@@ -137,5 +139,10 @@ public class ActualChartsView extends JPanel implements IView {
 	public void setRainGaugeChart(ChartPanel chart) {
 		_rainGaugeChart = chart;
 	}
+        
+    @Override
+        public void setEnabled(Boolean flag){
+        _frame.setEnabled(flag);
+    }
 
 }

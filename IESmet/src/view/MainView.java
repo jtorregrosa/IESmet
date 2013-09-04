@@ -27,7 +27,7 @@ import presenter.MainPresenter;
 import model.IModel;
 
 
-public class MainView extends JPanel implements IView{
+public class MainView implements IView{
 
     SystemTray _tray;
     JPopupMenu _menu;
@@ -51,10 +51,10 @@ public class MainView extends JPanel implements IView{
     	
         _presenter = new MainPresenter(model, this);
         
-        show();
+        init();
     }
 
-    public void show() {
+    public final void init() {
         // Creating toolkit to create icons
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         
@@ -72,21 +72,25 @@ public class MainView extends JPanel implements IView{
     	
     	// Adding menu items functionality
     	sub_actual.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 _presenter.launchActualCharts();
               }
     	});
     	about.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 _presenter.launchAboutUs();
               }
     	});
     	options.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 _presenter.launchOptions();
               }
     	});
         close.addActionListener(new ActionListener() {
+          @Override
           public void actionPerformed(ActionEvent e) {
             System.exit(0);
           }
@@ -98,6 +102,7 @@ public class MainView extends JPanel implements IView{
 			@Override
 			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
 				SwingUtilities.invokeLater(new Runnable(){
+                                        @Override
 					public void run(){
 						_menuDimensions=_menu.getBounds();
 					}
@@ -153,6 +158,7 @@ public class MainView extends JPanel implements IView{
         _trayIcon.setToolTip("IESmet");
         _trayIcon.setImageAutoSize(true);
         _trayIcon.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseReleased(MouseEvent e) {
                 if (e.getButton()==MouseEvent.BUTTON3 || e.getButton()==MouseEvent.BUTTON1) {
                 	_menu.setLocation(e.getX(), e.getY());
@@ -165,11 +171,14 @@ public class MainView extends JPanel implements IView{
         try {
 			_tray.add(_trayIcon);
 		} catch (AWTException e1) {
-			// TODO Excepcion tray
-			e1.printStackTrace();
 		}
     }
 	@Override
 	public void close() {		
 	}
+        
+    @Override
+        public void setEnabled(Boolean flag){
+        //_frame.setEnabled(flag);
+    }
 }

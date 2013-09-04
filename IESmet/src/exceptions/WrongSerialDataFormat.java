@@ -1,6 +1,7 @@
 package exceptions;
 
-public class WrongSerialDataFormat extends Exception {
+public class WrongSerialDataFormat extends Exception{
+    private static final long serialVersionUID = 468119870587815891L;
 
 	public WrongSerialDataFormat(String message) {
         super(message);

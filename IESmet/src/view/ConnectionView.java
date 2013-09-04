@@ -31,9 +31,10 @@ import javax.swing.text.StyleConstants;
 import presenter.ConnectionPresenter;
 import model.IModel;
 
-public class ConnectionView extends JPanel implements IView {
+public class ConnectionView implements IView {
 
     ConnectionPresenter _presenter;
+    JPanel _mainPane;
     JFrame _frame;
     JLabel _connectionLabel;
     JComboBox<String> _portsCombobox;
@@ -61,6 +62,7 @@ public class ConnectionView extends JPanel implements IView {
 
     public ConnectionView(IModel model) {
         // Initializing members
+        _mainPane= new JPanel();
         _connectionLabel = new JLabel("Puerto de la estación: ");
         _portsCombobox = new JComboBox<>();
         _modesCombobox = new JComboBox<>();
@@ -75,11 +77,11 @@ public class ConnectionView extends JPanel implements IView {
         _card3 = new JPanel();
 
 
-        show();
+        init();
     }
 
     @Override
-    public final void show() {
+    public final void init() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         _acceptButton.addActionListener(new ActionListener() {
             @Override
@@ -118,8 +120,8 @@ public class ConnectionView extends JPanel implements IView {
         _modesCombobox.addItem(CARD3);
 
 
-        this.setLayout(new BorderLayout());
-        this.setBackground(new Color(37, 84, 160));
+        _mainPane.setLayout(new BorderLayout());
+        _mainPane.setBackground(new Color(37, 84, 160));
 
         JPanel connectionPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel buttonsPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -167,9 +169,9 @@ public class ConnectionView extends JPanel implements IView {
         _cardsPane.add(_card3, CARD3);
 
         _acceptButton.setEnabled(false);
-        add(connectionPane, BorderLayout.CENTER);
-        add(buttonsPane, BorderLayout.SOUTH);
-        add(detailsPane, BorderLayout.EAST);
+        _mainPane.add(connectionPane, BorderLayout.CENTER);
+        _mainPane.add(buttonsPane, BorderLayout.SOUTH);
+        _mainPane.add(detailsPane, BorderLayout.EAST);
 
 
         List<Image> iconList = new LinkedList<>();
@@ -241,13 +243,25 @@ public class ConnectionView extends JPanel implements IView {
         t3.setBackground(new Color(86, 112, 180));
         t3.setForeground(Color.WHITE);
         _card3.add(t3);
+        JButton pathsConfigButton = new JButton("Configuración");
+        pathsConfigButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Director.doEmulationPaths();
+                _frame.setEnabled(false);
+            }
+        });
+        _card3.add(pathsConfigButton);
+        
+        
         t3.setCharacterAttributes(aSet, true);
 
         _frame.setIconImages(iconList);
         _frame.setResizable(true);
         _frame.setSize(650, 350);
         _frame.setLocationRelativeTo(null);
-        _frame.add(this);
+        _frame.add(_mainPane);
         _frame.setVisible(true);
 
         _frame.addWindowListener(new WindowListener() {
@@ -316,5 +330,10 @@ public class ConnectionView extends JPanel implements IView {
 
     public JButton getConnectionButton() {
         return _acceptButton;
+    }
+    
+    @Override
+    public void setEnabled(Boolean flag){
+        _frame.setEnabled(flag);
     }
 }

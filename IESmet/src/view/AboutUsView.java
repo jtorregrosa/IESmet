@@ -13,8 +13,9 @@ import presenter.AboutUsPresenter;
 import presenter.ActualChartsPresenter;
 import model.IModel;
 
-public class AboutUsView extends JPanel implements IView {
+public class AboutUsView implements IView {
 
+    JPanel _mainPane;
 	JFrame _frame;
 	JLabel _title;
 	JLabel _message;
@@ -23,6 +24,7 @@ public class AboutUsView extends JPanel implements IView {
 
 	public AboutUsView(IModel model) {
 		// Initializing members
+            _mainPane = new JPanel();
 		_frame = new JFrame();
 		_title=new JLabel();
 		_message = new JLabel();
@@ -30,14 +32,15 @@ public class AboutUsView extends JPanel implements IView {
 		_presenter = new AboutUsPresenter(model, this);
 
 		// Creating all components
-		show();
+		init();
 	}
 
-	public void show() {
+        @Override
+	public final void init() {
 
 		// Setting, packing, and showing Frame
 		_frame.setSize(400, 300);
-		_frame.setContentPane(this);
+		_frame.setContentPane(_mainPane);
 		_frame.setVisible(true);
 
 		_frame.addWindowListener(new WindowListener() {
@@ -72,8 +75,8 @@ public class AboutUsView extends JPanel implements IView {
 		});		
 		
 		// Adding labels
-		this.add(_title);
-		this.add(_message);
+		_mainPane.add(_title);
+		_mainPane.add(_message);
 	}
 
 	@Override
@@ -88,5 +91,10 @@ public class AboutUsView extends JPanel implements IView {
 	public void setMessage(String message){
 		_message.setText(message);
 	}
+        
+    @Override
+        public void setEnabled(Boolean flag){
+        _frame.setEnabled(flag);
+    }
 
 }

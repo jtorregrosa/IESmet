@@ -8,16 +8,11 @@ package presenter;
  * It updates the View and get the user inputs. It also updates the Model.
  */
 
-import java.util.Observable;
-import java.util.Observer;
 
 import view.IView;
 import view.MainView;
 
-import comm.SerialData;
-import comm.SerialDirector;
 import director.Director;
-import enums.SensorType;
 
 import model.IModel;
 import model.MainModel;

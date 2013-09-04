@@ -14,27 +14,28 @@ import presenter.ActualChartsPresenter;
 import presenter.OptionsPresenter;
 import model.IModel;
 
-public class OptionsView extends JPanel implements IView {
+public class OptionsView implements IView {
 
 	JFrame _frame;
-	
+	JPanel _mainPane;
 	OptionsPresenter _presenter;
 
 	public OptionsView(IModel model) {
 		// Initializing members
 		_frame = new JFrame();
-		
+		_mainPane = new JPanel();
 		_presenter = new OptionsPresenter(model, this);
 
 		// Creating all components
-		show();
+		init();
 	}
 
-	public void show() {
+        @Override
+	public final void init() {
 
 		// Setting, packing, and showing Frame
 		_frame.setSize(400, 600);
-		_frame.setContentPane(this);
+		_frame.setContentPane(_mainPane);
 		_frame.setVisible(true);
 
 		_frame.addWindowListener(new WindowListener() {
@@ -74,4 +75,9 @@ public class OptionsView extends JPanel implements IView {
 	public void close() {
 		_presenter.dispose();
 	}
+        
+        @Override
+        public void setEnabled(Boolean flag){
+        _frame.setEnabled(flag);
+    }
 }

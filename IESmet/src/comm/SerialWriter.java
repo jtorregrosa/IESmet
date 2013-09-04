@@ -1,7 +1,5 @@
 package comm;
 
-import gnu.io.SerialPortEvent;
-
 import java.io.OutputStream;
 import enums.SerialControlCode;
 import java.io.IOException;
