@@ -66,9 +66,10 @@ class RequestTask implements Runnable {
             switch (s.getControlCode()) {
                 case TEMPERATURE_REQUEST:
                     if (SerialDispatcher.getInstance().tempEnabled) {
-                        System.out.print("Pido temperatura ");
+   
                         SerialDirector.getInstance().requestSensorData(SensorType.S_TEMPERATURE);
                         SerialDispatcher.getInstance().tempEnabled=false;
+
                         SerialDispatcher.getInstance().blocked=true;
                         SerialDispatcher.getInstance()._activator.schedule(new ActivateTempTask(), s.getDelay(), TimeUnit.MILLISECONDS);
                         
@@ -79,6 +80,7 @@ class RequestTask implements Runnable {
                      if (SerialDispatcher.getInstance().pressEnabled) {
                         SerialDirector.getInstance().requestSensorData(SensorType.S_PRESSURE);
                         SerialDispatcher.getInstance().pressEnabled=false;
+
                          SerialDispatcher.getInstance().blocked=true;
                         SerialDispatcher.getInstance()._activator.schedule(new ActivatePressTask(), s.getDelay(), TimeUnit.MILLISECONDS);
                         
@@ -89,6 +91,7 @@ class RequestTask implements Runnable {
                      if (SerialDispatcher.getInstance().humiEnabled) {
                         SerialDirector.getInstance().requestSensorData(SensorType.S_HUMIDITY);
                         SerialDispatcher.getInstance().humiEnabled=false;
+
                          SerialDispatcher.getInstance().blocked=true;
                         SerialDispatcher.getInstance()._activator.schedule(new ActivateHumiTask(), s.getDelay(), TimeUnit.MILLISECONDS);
                         
@@ -100,6 +103,7 @@ class RequestTask implements Runnable {
                      if (SerialDispatcher.getInstance().wdirEnabled) {
                         SerialDirector.getInstance().requestSensorData(SensorType.S_WIND_DIRECTION);
                         SerialDispatcher.getInstance().wdirEnabled=false;
+
                          SerialDispatcher.getInstance().blocked=true;
                         SerialDispatcher.getInstance()._activator.schedule(new ActivateWDirTask(), s.getDelay(), TimeUnit.MILLISECONDS);
                         
@@ -111,6 +115,7 @@ class RequestTask implements Runnable {
                      if (SerialDispatcher.getInstance().wvelEnabled) {
                         SerialDirector.getInstance().requestSensorData(SensorType.S_WIND_VELOCITY);
                         SerialDispatcher.getInstance().wvelEnabled=false;
+
                          SerialDispatcher.getInstance().blocked=true;
                         SerialDispatcher.getInstance()._activator.schedule(new ActivateWVelTask(), s.getDelay(), TimeUnit.MILLISECONDS);
                         
@@ -122,6 +127,7 @@ class RequestTask implements Runnable {
                      if (SerialDispatcher.getInstance().rainEnabled) {
                         SerialDirector.getInstance().requestSensorData(SensorType.S_RAIN_GAUGE);
                         SerialDispatcher.getInstance().rainEnabled=false;
+
                          SerialDispatcher.getInstance().blocked=true;
                         SerialDispatcher.getInstance()._activator.schedule(new ActivateRainTask(), s.getDelay(), TimeUnit.MILLISECONDS);
                         

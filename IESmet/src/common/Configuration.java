@@ -1,6 +1,6 @@
 package common;
 
-import exceptions.NotValidCoordinates;
+import enums.SensorType;
 
 public class Configuration {
 
@@ -13,10 +13,6 @@ public class Configuration {
         EMULATED
     }
 
-    public enum Sensors {
-
-        TEMPERATURE, PRESSURE, HUMIDITY, WIND_DIRECTION, WIND_VELOCITY, RAIN_GAUGE
-    }
     // GUI
     //public static Localization LOCALIZATION;
     // SERIAL OPTIONS
@@ -71,48 +67,48 @@ public class Configuration {
         return _mode;
     }
 
-    public void setEmulationPath(Sensors s, String path) {
+    public void setEmulationPath(SensorType s, String path) {
         switch (s) {
-            case TEMPERATURE:
+            case S_TEMPERATURE:
                 _emulationTempfile = path;
                 break;
-            case PRESSURE:
+            case S_PRESSURE:
                 _emulationPresfile = path;
                 break;
-            case HUMIDITY:
+            case S_HUMIDITY:
                 _emulationHumifile = path;
                 break;
-            case WIND_DIRECTION:
+            case S_WIND_DIRECTION:
                 _emulationWDirfile = path;
                 break;
-            case WIND_VELOCITY:
+            case S_WIND_VELOCITY:
                 _emulationWVelfile = path;
                 break;
-            case RAIN_GAUGE:
+            case S_RAIN_GAUGE:
                 _emulationRaGafile = path;
                 break;
         }
     }
 
-    public String getEmulationPath(Sensors s) {
+    public String getEmulationPath(SensorType s) {
         String path = null;
         switch (s) {
-            case TEMPERATURE:
+            case S_TEMPERATURE:
                 path = _emulationTempfile;
                 break;
-            case PRESSURE:
+            case S_PRESSURE:
                 path = _emulationPresfile;
                 break;
-            case HUMIDITY:
+            case S_HUMIDITY:
                 path = _emulationHumifile;
                 break;
-            case WIND_DIRECTION:
+            case S_WIND_DIRECTION:
                 path = _emulationWDirfile;
                 break;
-            case WIND_VELOCITY:
+            case S_WIND_VELOCITY:
                 path = _emulationWVelfile;
                 break;
-            case RAIN_GAUGE:
+            case S_RAIN_GAUGE:
                 path = _emulationRaGafile;
                 break;
         }

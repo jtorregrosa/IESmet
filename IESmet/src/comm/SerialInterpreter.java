@@ -20,7 +20,7 @@ private static DecimalFormat _df1= new DecimalFormat("#.#");
         
         buffer.position(0);
         short value = buffer.getShort();
-        System.out.println("Valor : " + value);      
+   
         double dvalue;
         
         if(value<=2047)
@@ -73,7 +73,7 @@ private static DecimalFormat _df1= new DecimalFormat("#.#");
         buffer.position(0);
         short value = buffer.getShort();
         double dvalue;
-        System.out.println("VALOR VELETA: " + value);
+
 
         dvalue = (360*value)/255;
         

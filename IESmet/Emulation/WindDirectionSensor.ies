@@ -1,0 +1,28 @@
+<sensor id="5">
+	<meta>
+		<name>Sensor Dirección del Viento</name>
+		<description>
+			Este archivo se trata de una emulación de los valores RAW recibidos desde la estación física.
+			Dirección  | Valor
+			-----------|------
+			Norte      | 0
+			Sur        | 127
+			Este       | 63
+			Oeste      | 191
+		</description>
+	</meta>
+	<read>
+		<data>
+			<value>0</value>
+		</data>
+		<data>
+			<value>63</value>
+		</data>
+		<data>
+			<value>127</value>
+		</data>
+		<data>
+			<value>191</value>
+		</data>
+	</read>
+</sensor>

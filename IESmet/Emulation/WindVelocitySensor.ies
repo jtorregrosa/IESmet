@@ -1,0 +1,32 @@
+<sensor id="4">
+	<meta>
+		<name>Sensor Velocidad Viento</name>
+		<description>
+			Este archivo se trata de una emulación de los valores RAW recibidos desde la estación física.
+			Km/h | Valor
+			-----|------
+			+0   | 0
+			+20  | 8
+			+39  | 16
+			+59  | 24
+			+78  | 32
+		</description>
+	</meta>
+	<read>
+		<data>
+			<value>0</value>
+		</data>
+		<data>
+			<value>8</value>
+		</data>
+		<data>
+			<value>16</value>
+		</data>
+		<data>
+			<value>24</value>
+		</data>
+		<data>
+			<value>32</value>
+		</data>
+	</read>
+</sensor>

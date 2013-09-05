@@ -15,18 +15,16 @@ import enums.SerialControlCode;
 import common.DialogManager;
 import static enums.SensorType.S_HUMIDITY;
 import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class SerialDirector {
 
-    
     private SerialReader _sReader;
     private SerialWriter _sWriter;
+    
+    private IStrategy _strategy;
     private static SerialDirector _INSTANCE = new SerialDirector();
 
     private SerialDirector() {
-        
     }
 
     public static SerialDirector getInstance() {
@@ -43,77 +41,21 @@ public class SerialDirector {
             }
         }
     }
+    
+    public void setStrategy(IStrategy s){
+        _strategy = s;
+    }
 
     public HashMap<String, CommPortIdentifier> getAvailablePorts() {
-        HashMap<String, CommPortIdentifier> portMap = new HashMap<String, CommPortIdentifier>();
-        Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
-
-        while (ports.hasMoreElements()) {
-            CommPortIdentifier curPort = (CommPortIdentifier) ports
-                    .nextElement();
-
-            if (curPort.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-                portMap.put(curPort.getName(), curPort);
-            }
-        }
-        return portMap;
+        return _strategy.getAvailablePorts();
     }
 
     public void connect(String portName) {
-        CommPortIdentifier portIdentifier;
-        try {
-            portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
-            CommPort commPort = portIdentifier.open("TigerControlPanel", 2000);
-
-            SerialPort serialPort = (SerialPort) commPort;
-            serialPort.setSerialPortParams(2400, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-            
-            _sReader = new SerialReader(serialPort.getInputStream());
-            serialPort.addEventListener(_sReader);
-            serialPort.notifyOnDataAvailable(true);
-            _sWriter = new SerialWriter(serialPort.getOutputStream());
-
-        } catch (NoSuchPortException e) {
-            DialogManager.showDialog("Error de conexión", "No existe el puerto seleccionado", null, DialogType.ERROR);
-        } catch (PortInUseException e) {
-            DialogManager.showDialog("Error de conexión", "El puerto seleccionado se encuentra en uso", null, DialogType.ERROR);
-        } catch (Exception e) {
-            DialogManager.showDialog("Error de conexión", "Se ha producido un error de conexión", null, DialogType.ERROR);
-        }
+        _strategy.connect(portName);
     }
 
     public void requestSensorData(SensorType s) {
-//        double value = Float.POSITIVE_INFINITY;
-        switch (s) {
-            case S_HUMIDITY:
-                _sWriter.sendControlCode(SerialControlCode.HUMIDITY_REQUEST);
-
-//                value = SerialInterpreter.interpretHumidity(_sReader.obtainReqSensorData());
-                break;
-            case S_PRESSURE:
-                _sWriter.sendControlCode(SerialControlCode.PRESSURE_REQUEST);
-//                value = SerialInterpreter.interpretPressure(_sReader.obtainReqSensorData());
-                break;
-            case S_RAIN_GAUGE:
-                _sWriter.sendControlCode(SerialControlCode.RAINGAUGE_REQUEST);
-//                value = SerialInterpreter.interpretRainGauge(_sReader.obtainReqSensorData());
-                break;
-            case S_TEMPERATURE:
-                _sWriter.sendControlCode(SerialControlCode.TEMPERATURE_REQUEST);
-//                value = SerialInterpreter.interpretTemperature(_sReader.obtainReqSensorData());
-                break;
-            case S_WIND_DIRECTION:
-                _sWriter.sendControlCode(SerialControlCode.WINDDIRECTION_REQUEST);
-//                value = SerialInterpreter.interpretWDirection(_sReader.obtainReqSensorData());
-                break;
-            case S_WIND_VELOCITY:
-                _sWriter.sendControlCode(SerialControlCode.WINDVELOCITY_REQUEST);
-//                value = SerialInterpreter.interpretWVelocity(_sReader.obtainReqSensorData());
-                break;
-        }
-        
-
-//        return value;
+       _strategy.requestSensorData(s);
     }
 
     public void replySerialEvent(ByteBuffer b) {
@@ -122,36 +64,26 @@ public class SerialDirector {
             case S_HUMIDITY:
                 value = SerialInterpreter.interpretHumidity(b);
                 SerialData.getInstance().setHumidity(value);
-                
                 break;
             case S_PRESSURE:
-                
                 value = SerialInterpreter.interpretPressure(b);
-                
                 SerialData.getInstance().setPressure(value);
-                
                 break;
             case S_RAIN_GAUGE:
                 value = SerialInterpreter.interpretRainGauge(b);
                 SerialData.getInstance().setRainGauge(value);
-                
                 break;
             case S_TEMPERATURE:
-                System.out.println("Recibo Dato");
                 value = SerialInterpreter.interpretTemperature(b);
-                
                 SerialData.getInstance().setTemperature(value);
-                
                 break;
             case S_WIND_DIRECTION:
                 value = SerialInterpreter.interpretWDirection(b);
                 SerialData.getInstance().setWindDirection(value);
-                
                 break;
             case S_WIND_VELOCITY:
                 value = SerialInterpreter.interpretWVelocity(b);
                 SerialData.getInstance().setWindVelocity(value);
-                
                 break;
         }
         SerialData.getInstance().UpdateCompleted();

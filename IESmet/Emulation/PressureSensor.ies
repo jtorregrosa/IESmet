@@ -1,0 +1,32 @@
+<sensor id="2">
+	<meta>
+		<name>Sensor Presión</name>
+		<description>
+			Este archivo se trata de una emulación de los valores RAW recibidos desde la estación física.
+			MBares   | Valor
+			---------|------
+			+1025    | 846
+			+1019    | 841
+			+1015    | 837
+			+1009    | 832
+			+1005    | 828
+		</description>
+	</meta>
+	<read>
+		<data>
+			<value>846</value>
+		</data>
+		<data>
+			<value>841</value>
+		</data>
+		<data>
+			<value>837</value>
+		</data>
+		<data>
+			<value>832</value>
+		</data>
+		<data>
+			<value>828</value>
+		</data>
+	</read>
+</sensor>

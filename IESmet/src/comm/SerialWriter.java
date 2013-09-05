@@ -18,7 +18,7 @@ public class SerialWriter
     public void sendControlCode(SerialControlCode s) {
         try {
             out.write(s.getHexCode());
-            System.out.println("Envio ControlCode");
+
         } catch (IOException ex) {
             Logger.getLogger(SerialWriter.class.getName()).log(Level.SEVERE, null, ex);
         }

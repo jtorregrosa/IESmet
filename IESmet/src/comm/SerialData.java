@@ -59,8 +59,6 @@ public class SerialData extends Observable {
 			WindVelocity = SerialInterpreter.interpretWVelocity(buffer);
 			WindDirection = SerialInterpreter.interpretWDirection(buffer);
 			RainGauge = SerialInterpreter.interpretRainGauge(buffer);
-			//System.out.println("{"+Temperature+","+Humidity+","+Pressure+","+WindVelocity+","+WindDirection+","+RainGauge+"}");
-            //System.out.print(new String(Buffer,0,len));
 			UpdateCompleted();
 		}else
 			throw new WrongSerialDataFormat("El buffer de datos debe de ser mínimo de 6 bytes");

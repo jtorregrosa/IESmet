@@ -8,6 +8,8 @@ package presenter;
  * It updates the View and get the user inputs. It also updates the Model.
  */
 
+import comm.ConnectionStrategy;
+import comm.EmulationStrategy;
 import gnu.io.CommPortIdentifier;
 
 
@@ -40,6 +42,7 @@ public class ConnectionPresenter implements IPresenter{
 		//Recollect data
 		JComboBox<String> c = _view.getPortsComboBox();
 		SerialDirector d = SerialDirector.getInstance();
+                d.setStrategy(new ConnectionStrategy());
 		for(CommPortIdentifier h : d.getAvailablePorts().values()){
 			c.addItem(h.getName());
 		}
@@ -52,13 +55,14 @@ public class ConnectionPresenter implements IPresenter{
 	}
 	
 	public void Connect(String port) {
-		if(Configuration.getInstance().getAppMode() == Configuration.AppMode.CONNECTED){
-			SerialDirector.getInstance().connect(port);
-                        SerialScheduler.getInstance().startTasks();
-                        SerialDispatcher.getInstance().startTasks();
-		}else if(Configuration.getInstance().getAppMode() == Configuration.AppMode.EMULATED){
-                    
-                }
+		
+            if(Configuration.getInstance().getAppMode() == Configuration.AppMode.EMULATED){
+                SerialDirector.getInstance().setStrategy(new EmulationStrategy());
+            }
+		SerialDirector.getInstance().connect(port);
+                SerialScheduler.getInstance().startTasks();
+                SerialDispatcher.getInstance().startTasks();
+		
 
 		Director.doMain();
 		_view.close();

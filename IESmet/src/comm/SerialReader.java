@@ -10,7 +10,6 @@ public class SerialReader implements SerialPortEventListener
 {
     private InputStream in;
 
-    
     public SerialReader ( InputStream in )
     {
         this.in = in;
@@ -18,7 +17,7 @@ public class SerialReader implements SerialPortEventListener
     
     @Override
     public void serialEvent(SerialPortEvent arg0) {
-        //System.out.println("datos");
+
     	ByteBuffer buffer = ByteBuffer.allocateDirect(2);
         int data;
         buffer.clear();
@@ -27,14 +26,13 @@ public class SerialReader implements SerialPortEventListener
         {
             while ( ( data = in.read()) > -1 && count<2 )
             {
-                System.out.println(Integer.toBinaryString(data));
+
                 buffer.put((byte)data);
                 count++;
             }
         }
         catch ( IOException e )
         {
-            System.out.println("Vaya excepcion");
             System.exit(-1);
         }
         

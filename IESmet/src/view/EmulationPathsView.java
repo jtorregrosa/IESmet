@@ -2,6 +2,7 @@ package view;
 
 import common.Configuration;
 import director.Director;
+import enums.SensorType;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -352,8 +353,8 @@ public class EmulationPathsView implements IView {
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     String path = _autoFC.getSelectedFile().getAbsolutePath();
                     // LANZAR COMPROBACION
-                    LogReader lr = new LogReader();
-                    Map<Integer, String> files = lr.autoDetectFiles(path);
+                    
+                    Map<Integer, String> files = LogReader.getInstance().autoDetectFiles(path);
 
                     _temperatureField.setText(files.get(1) == null? "" : files.get(1));
                     _pressureField.setText(files.get(2) == null? "" : files.get(2));
@@ -368,12 +369,12 @@ public class EmulationPathsView implements IView {
         _acceptButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Configuration.getInstance().setEmulationPath(Configuration.Sensors.TEMPERATURE, _temperatureField.getText());
-                Configuration.getInstance().setEmulationPath(Configuration.Sensors.PRESSURE, _pressureField.getText());
-                Configuration.getInstance().setEmulationPath(Configuration.Sensors.HUMIDITY, _humidityField.getText());
-                Configuration.getInstance().setEmulationPath(Configuration.Sensors.WIND_DIRECTION, _windDirectionField.getText());
-                Configuration.getInstance().setEmulationPath(Configuration.Sensors.WIND_VELOCITY, _windVelocityField.getText());
-                Configuration.getInstance().setEmulationPath(Configuration.Sensors.RAIN_GAUGE, _rainGaugeField.getText());
+                Configuration.getInstance().setEmulationPath(SensorType.S_TEMPERATURE, _temperatureField.getText());
+                Configuration.getInstance().setEmulationPath(SensorType.S_PRESSURE, _pressureField.getText());
+                Configuration.getInstance().setEmulationPath(SensorType.S_HUMIDITY, _humidityField.getText());
+                Configuration.getInstance().setEmulationPath(SensorType.S_WIND_DIRECTION, _windDirectionField.getText());
+                Configuration.getInstance().setEmulationPath(SensorType.S_WIND_VELOCITY, _windVelocityField.getText());
+                Configuration.getInstance().setEmulationPath(SensorType.S_RAIN_GAUGE, _rainGaugeField.getText());
                 
                 close();
             }

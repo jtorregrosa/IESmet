@@ -1,0 +1,32 @@
+<sensor id="3">
+	<meta>
+		<name>Sensor Humedad</name>
+		<description>
+			Este archivo se trata de una emulación de los valores RAW recibidos desde la estación física.
+			%    | Valor
+			-----|------
+			+30  | 360
+			+40  | 425
+			+50  | 491
+			+60  | 556
+			+70  | 621
+		</description>
+	</meta>
+	<read>
+		<data>
+			<value>360</value>
+		</data>
+		<data>
+			<value>425</value>
+		</data>
+		<data>
+			<value>491</value>
+		</data>
+		<data>
+			<value>556</value>
+		</data>
+		<data>
+			<value>621</value>
+		</data>
+	</read>
+</sensor>
